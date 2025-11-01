@@ -1,6 +1,6 @@
 {
-    "name": "dragon-code/telemetry",
-    "description": "End-to-end telemetry of inter-service communication",
+    "name": "dragon-code/request-tracker",
+    "description": "Request tracking across microservices",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -23,7 +23,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "DragonCode\\Telemetry\\": "src/"
+            "DragonCode\\RequestTracker\\": "src/"
         }
     },
     "autoload-dev": {

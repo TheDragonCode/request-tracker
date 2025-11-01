@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DragonCode\Telemetry;
+namespace DragonCode\RequestTracker;
 
 use Closure;
 use Ramsey\Uuid\UuidFactory;
@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 use function is_int;
 
-class TelemetryRequest
+class TrackerRequest
 {
     public function __construct(
         protected Request $request,
-        protected TelemetryHeader $header,
+        protected TrackerHeader $header,
     ) {}
 
     public function userId(int|string|null $id): static

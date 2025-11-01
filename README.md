@@ -1,19 +1,19 @@
-# 🪢 Telemetry
+# 🪢 Request Tracker
 
-![the dragon code telemetry](https://preview.dragon-code.pro/the%20dragon%20code/telemetry.svg?brand=php&mode=auto)
+![the dragon code request-tracker](https://preview.dragon-code.pro/the%20dragon%20code/request-tracker.svg?brand=php&mode=auto)
 
 [![Stable Version][badge_stable]][link_packagist]
 [![Total Downloads][badge_downloads]][link_packagist]
 [![License][badge_license]][link_license]
 
-End-to-end telemetry of inter-service communication.
+Request tracking across microservices.
 
 ## Installation
 
-You can install the **Telemetry** package via [Composer](https://getcomposer.org):
+You can install the **Request Tracker** package via [Composer](https://getcomposer.org):
 
 ```Bash
-composer require dragon-code/telemetry
+composer require dragon-code/request-tracker
 ```
 
 ## Basic Usage
@@ -21,18 +21,18 @@ composer require dragon-code/telemetry
 ### Using Default Header Names
 
 ```php
-use DragonCode\Telemetry\TelemetryHeader;
-use DragonCode\Telemetry\TelemetryRequest;
+use DragonCode\RequestTracker\TrackerHeader;
+use DragonCode\RequestTracker\TrackerRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @var Request $request */
 $request = /* ... */;
 
-$telemetry = new TelemetryRequest($request, new TelemetryHeader);
+$tracker = new TrackerRequest($request, new TrackerHeader);
 
-function telemetry(Request $request, ?int $userId = null): Request
+function tracker(Request $request, ?int $userId = null): Request
 {
-    return (new TelemetryRequest($request, new TelemetryHeader))
+    return (new TrackerRequest($request, new TrackerHeader))
         ->userId($userId)
         ->ip()
         ->traceId()
@@ -40,27 +40,27 @@ function telemetry(Request $request, ?int $userId = null): Request
 }
 
 // For the first call
-telemetry($request, $user->id);
+tracker($request, $user->id);
 
 // For subsequent services
-telemetry($request);
+tracker($request);
 ```
 
 ### Custom Headers
 
 ```php
-use DragonCode\Telemetry\TelemetryHeader;
-use DragonCode\Telemetry\TelemetryRequest;
+use DragonCode\RequestTracker\TrackerHeader;
+use DragonCode\RequestTracker\TrackerRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @var Request $request */
 $request = /* ... */;
 
-$telemetry = new TelemetryRequest($request, new TelemetryHeader);
+$tracker = new TrackerRequest($request, new TrackerHeader);
 
-function telemetry(Request $request, ?int $userId = null): Request
+function tracker(Request $request, ?int $userId = null): Request
 {
-    return (new TelemetryRequest($request, new TelemetryHeader))
+    return (new TrackerRequest($request, new TrackerHeader))
         ->userId($userId)
         ->ip()
         ->traceId()
@@ -70,7 +70,7 @@ function telemetry(Request $request, ?int $userId = null): Request
 ```
 
 ```php
-$item = telemetry($request);
+$item = tracker($request);
 
 return $item->headers->get('Some-Header'); // 1234
 ```
@@ -78,7 +78,7 @@ return $item->headers->get('Some-Header'); // 1234
 ```php
 $request->headers->set('Some-Header', 'qwerty');
 
-$item = telemetry($request);
+$item = tracker($request);
 
 return $item->headers->get('Some-Header'); // qwerty
 ```
@@ -86,9 +86,9 @@ return $item->headers->get('Some-Header'); // qwerty
 ### Custom Header Names
 
 ```php
-use DragonCode\Telemetry\TelemetryHeader;
+use DragonCode\RequestTracker\TrackerHeader;
 
-return new TelemetryHeader(
+return new TrackerHeader(
     userId: 'Some-User-Id',
     ip: 'Some-IP',
     traceId: 'Some-Trace-Id',
@@ -100,12 +100,12 @@ return new TelemetryHeader(
 This package is licensed under the [MIT License](LICENSE).
 
 
-[badge_downloads]:      https://img.shields.io/packagist/dt/dragon-code/telemetry.svg?style=flat-square
+[badge_downloads]:      https://img.shields.io/packagist/dt/dragon-code/request-tracker.svg?style=flat-square
 
-[badge_license]:        https://img.shields.io/packagist/l/dragon-code/telemetry.svg?style=flat-square
+[badge_license]:        https://img.shields.io/packagist/l/dragon-code/request-tracker.svg?style=flat-square
 
-[badge_stable]:         https://img.shields.io/github/v/release/TheDragonCode/telemetry?label=packagist&style=flat-square
+[badge_stable]:         https://img.shields.io/github/v/release/TheDragonCode/request-tracker?label=packagist&style=flat-square
 
 [link_license]:         LICENSE
 
-[link_packagist]:       https://packagist.org/packages/dragon-code/telemetry
+[link_packagist]:       https://packagist.org/packages/dragon-code/request-tracker

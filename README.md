@@ -1,6 +1,6 @@
 # 🪢 Request Tracker
 
-![the dragon code request-tracker](https://preview.dragon-code.pro/the%20dragon%20code/request-tracker.svg?brand=php&mode=auto)
+![the dragon code request-tracker](https://preview.dragon-code.pro/the%20dragon%20code/request-tracker.svg?brand=symfony&mode=auto)
 
 [![Stable Version][badge_stable]][link_packagist]
 [![Total Downloads][badge_downloads]][link_packagist]

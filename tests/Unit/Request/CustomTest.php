@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-use DragonCode\Telemetry\TelemetryHeader;
-use DragonCode\Telemetry\TelemetryRequest;
+use DragonCode\RequestTracker\TrackerHeader;
+use DragonCode\RequestTracker\TrackerRequest;
 use Symfony\Component\HttpFoundation\Request;
 
 it('sets header from callback when header is absent and casts ints to strings', function () {
     $headerName = 'Some-Header';
 
     $request   = makeRequest();
-    $header    = new TelemetryHeader;
-    $telemetry = new TelemetryRequest($request, $header);
+    $header    = new TrackerHeader;
+    $telemetry = new TrackerRequest($request, $header);
 
     $telemetry->custom($headerName, function (Request $req) {
         expect($req)->toBeInstanceOf(Request::class);
@@ -28,8 +28,8 @@ it('preserves existing header and does not call the callback when header is pres
     $request = makeRequest([$headerName => 'qwerty']);
 
     $called    = false;
-    $header    = new TelemetryHeader;
-    $telemetry = new TelemetryRequest($request, $header);
+    $header    = new TrackerHeader;
+    $telemetry = new TrackerRequest($request, $header);
 
     $telemetry->custom($headerName, function () use (&$called) {
         $called = true; // must remain false if existing header is used

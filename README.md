@@ -1,6 +1,6 @@
 # 🪢 Request Tracker
 
-![the dragon code request-tracker](https://preview.dragon-code.pro/the%20dragon%20code/request-tracker.svg?brand=symfony&mode=auto)
+![the dragon code request-tracker](https://banners.beyondco.de/Request%20Tracker.png?theme=light&packageManager=composer+require&packageName=dragon-code%2Frequest-tracker&pattern=topography&style=style_2&description=by+The+Dragon+Code&md=1&showWatermark=1&fontSize=100px&images=https%3A%2F%2Fwww.php.net%2Fimages%2Flogos%2Fnew-php-logo.svg)
 
 [![Stable Version][badge_stable]][link_packagist]
 [![Total Downloads][badge_downloads]][link_packagist]

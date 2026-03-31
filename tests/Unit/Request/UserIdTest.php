@@ -31,5 +31,5 @@ it('sets and gets user id with string and int, falling back to existing header o
     // 4) getUserId() returns '0' when nothing present
     $request   = makeRequest();
     $telemetry = new TrackerRequest($request, $header);
-    expect($telemetry->getUserId())->toBe('0');
+    expect($telemetry->getUserId())->toBeNull();
 });

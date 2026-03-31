@@ -44,3 +44,13 @@ test('getUserId() returns 0 when nothing present', function () {
     $telemetry = new TrackerRequest($request, $header);
     expect($telemetry->getUserId())->toBeNull();
 });
+
+test('telemetry header is empty', function (string $value) {
+    $header = new TrackerHeader;
+
+    $request   = makeRequest([$header->userId => $value]);
+    $telemetry = new TrackerRequest($request, $header);
+    $telemetry->userId();
+
+    expect($request->headers->get($header->userId))->toBeNull();
+})->with(['', '-']);

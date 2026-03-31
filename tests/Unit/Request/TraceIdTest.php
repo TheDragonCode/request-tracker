@@ -46,3 +46,16 @@ test('traceId() with explicit value sets header', function () {
 
     expect($request->headers->get($header->traceId))->toBe('manual-id');
 });
+
+test('telemetry header is empty', function (string $value) {
+    $header = new TrackerHeader;
+
+    $request   = makeRequest([$header->traceId => $value]);
+    $telemetry = new TrackerRequest($request, $header);
+    $telemetry->traceId();
+
+    $generated = $request->headers->get($header->traceId);
+
+    expect(Uuid::isValid($generated))->toBeTrue()
+        ->and(Uuid::fromString($generated)->getVersion())->toBe(7);
+})->with(['', '-']);

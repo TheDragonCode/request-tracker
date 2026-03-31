@@ -8,6 +8,8 @@ use Closure;
 use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 
+use function in_array;
+use function is_array;
 use function is_int;
 
 class TrackerRequest
@@ -17,7 +19,7 @@ class TrackerRequest
         protected TrackerHeader $header,
     ) {}
 
-    public function userId(int|string|null $id): static
+    public function userId(int|string|null $id = null): static
     {
         $id ??= $this->getUserId();
 
@@ -89,6 +91,8 @@ class TrackerRequest
     protected function set(string $key, array|int|string|null $value): static
     {
         if (! is_int($value) && ! $value) {
+            $this->request->headers->remove($key);
+
             return $this;
         }
 
@@ -103,6 +107,25 @@ class TrackerRequest
 
     protected function get(string $key): array|string|null
     {
-        return $this->request->headers->get($key);
+        return $this->resolve(
+            $this->request->headers->get($key)
+        );
+    }
+
+    protected function resolve(array|int|string|null $value): array|string|null
+    {
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_int($value)) {
+            return (string) $value;
+        }
+
+        if (in_array($value, ['', 'null', '[]', '{}', '-'], true)) {
+            return null;
+        }
+
+        return $value;
     }
 }

@@ -6,27 +6,43 @@ use DragonCode\RequestTracker\TrackerHeader;
 use DragonCode\RequestTracker\TrackerRequest;
 use Ramsey\Uuid\Uuid;
 
-it('gets or sets trace id, generating a UUID v4 when absent', function () {
+test('If header exists, return it', function () {
     $header = new TrackerHeader;
 
-    // 1) If header exists, return it
     $request   = makeRequest([$header->traceId => 'trace-123']);
     $telemetry = new TrackerRequest($request, $header);
-    expect($telemetry->getTraceId())->toBe('trace-123');
 
-    // 2) When absent, generate UUID v4
+    expect($telemetry->getTraceId())->toBe('trace-123');
+});
+
+test('When absent, generate UUID', function () {
+    $header = new TrackerHeader;
+
     $request   = makeRequest();
     $telemetry = new TrackerRequest($request, $header);
     $generated = $telemetry->getTraceId();
+
     expect(Uuid::isValid($generated))->toBeTrue()
         ->and(Uuid::fromString($generated)->getVersion())->toBe(7);
+});
 
-    // 3) traceId() without param sets header using getTraceId()
+test('traceId() without param sets header using getTraceId()', function () {
+    $header = new TrackerHeader;
+
+    $request   = makeRequest();
+    $telemetry = new TrackerRequest($request, $header);
     $telemetry->traceId();
+
     expect($request->headers->has($header->traceId))->toBeTrue()
         ->and(Uuid::isValid($request->headers->get($header->traceId)))->toBeTrue();
+});
 
-    // 4) traceId() with explicit value sets header
+test('traceId() with explicit value sets header', function () {
+    $header = new TrackerHeader;
+
+    $request   = makeRequest();
+    $telemetry = new TrackerRequest($request, $header);
     $telemetry->traceId('manual-id');
+
     expect($request->headers->get($header->traceId))->toBe('manual-id');
 });

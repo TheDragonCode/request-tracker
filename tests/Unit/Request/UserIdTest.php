@@ -5,30 +5,41 @@ declare(strict_types=1);
 use DragonCode\RequestTracker\TrackerHeader;
 use DragonCode\RequestTracker\TrackerRequest;
 
-it('sets and gets user id with string and int, falling back to existing header or 0', function () {
+test('Explicit string', function () {
     $header = new TrackerHeader;
 
-    // 1) Explicit string
     $request   = makeRequest();
     $telemetry = new TrackerRequest($request, $header);
     $telemetry->userId('42');
+
     expect($request->headers->get($header->userId))->toBe('42')
         ->and($telemetry->getUserId())->toBe('42');
+});
 
-    // 2) Explicit int should be cast to string
+test('Explicit int should be cast to string', function () {
+    $header = new TrackerHeader;
+
     $request   = makeRequest();
     $telemetry = new TrackerRequest($request, $header);
     $telemetry->userId(7);
-    expect($request->headers->get($header->userId))->toBe('7');
 
-    // 3) Fallback to existing header when null
+    expect($request->headers->get($header->userId))->toBe('7');
+});
+
+test('Fallback to existing header when null', function () {
+    $header = new TrackerHeader;
+
     $request   = makeRequest([$header->userId => '555']);
     $telemetry = new TrackerRequest($request, $header);
     $telemetry->userId(null);
+
     expect($request->headers->get($header->userId))->toBe('555')
         ->and($telemetry->getUserId())->toBe('555');
+});
 
-    // 4) getUserId() returns '0' when nothing present
+test('getUserId() returns 0 when nothing present', function () {
+    $header = new TrackerHeader;
+
     $request   = makeRequest();
     $telemetry = new TrackerRequest($request, $header);
     expect($telemetry->getUserId())->toBeNull();

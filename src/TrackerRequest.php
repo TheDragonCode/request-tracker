@@ -68,7 +68,7 @@ class TrackerRequest
             return $id;
         }
 
-        return (new UuidFactory)->uuid4()->toString();
+        return (new UuidFactory)->uuid7()->toString();
     }
 
     public function custom(string $header, Closure $callback): static

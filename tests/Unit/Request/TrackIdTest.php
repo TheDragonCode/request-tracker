@@ -19,7 +19,7 @@ it('gets or sets trace id, generating a UUID v4 when absent', function () {
     $telemetry = new TrackerRequest($request, $header);
     $generated = $telemetry->getTraceId();
     expect(Uuid::isValid($generated))->toBeTrue()
-        ->and(Uuid::fromString($generated)->getVersion())->toBe(4);
+        ->and(Uuid::fromString($generated)->getVersion())->toBe(7);
 
     // 3) traceId() without param sets header using getTraceId()
     $telemetry->traceId();

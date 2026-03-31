@@ -14,7 +14,7 @@ test('If telemetry header exists, it wins', function () {
     expect($telemetry->getIp())->toBe('203.0.113.10');
 });
 
-test('Else HTTP_X_REAL_IP (non-standard header name checked by the class)', function () {
+test('HTTP_X_REAL_IP (non-standard header name checked by the class)', function () {
     $header = new TrackerHeader;
 
     $request = makeRequest();
@@ -24,7 +24,7 @@ test('Else HTTP_X_REAL_IP (non-standard header name checked by the class)', func
     expect($telemetry->getIp())->toBe('198.51.100.20');
 });
 
-test('Else client ip (REMOTE_ADDR)', function () {
+test('client ip (REMOTE_ADDR)', function () {
     $header = new TrackerHeader;
 
     $request   = makeRequest([], ['REMOTE_ADDR' => '192.0.2.30']);
@@ -42,6 +42,16 @@ test('ip() without argument sets header from getIp()', function () {
 
     expect($request->headers->get($header->ip))->toBe('127.0.0.1');
 });
+
+test('telemetry header is empty', function (string $value) {
+    $header = new TrackerHeader;
+
+    $request   = makeRequest([$header->ip => $value]);
+    $telemetry = new TrackerRequest($request, $header);
+    $telemetry->ip();
+
+    expect($request->headers->get($header->ip))->toBe('127.0.0.1');
+})->with(['', '-']);
 
 test('ip() with value overrides and sets header', function () {
     $header = new TrackerHeader;

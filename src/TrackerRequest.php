@@ -26,13 +26,13 @@ class TrackerRequest
         return $this;
     }
 
-    public function getUserId(): string
+    public function getUserId(): ?string
     {
         if ($id = $this->get($this->header->userId)) {
             return $id;
         }
 
-        return '0';
+        return null;
     }
 
     public function ip(?string $ip = null): static
@@ -44,7 +44,7 @@ class TrackerRequest
         return $this;
     }
 
-    public function getIp(): string
+    public function getIp(): ?string
     {
         if ($ip = $this->get($this->header->ip)) {
             return $ip;
@@ -88,6 +88,10 @@ class TrackerRequest
 
     protected function set(string $key, array|int|string|null $value): static
     {
+        if (! is_int($value) && ! $value) {
+            return $this;
+        }
+
         if (is_int($value)) {
             $value = (string) $value;
         }

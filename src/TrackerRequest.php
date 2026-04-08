@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace DragonCode\RequestTracker;
 
 use Closure;
-use Ramsey\Uuid\UuidFactory;
 use Symfony\Component\HttpFoundation\Request;
 
 use function in_array;
@@ -70,7 +69,7 @@ class TrackerRequest
             return $id;
         }
 
-        return (new UuidFactory)->uuid7()->toString();
+        return TrackerUuid::get();
     }
 
     public function custom(string $header, Closure $callback): static
